@@ -9,7 +9,7 @@ public abstract class ActorController : MonoBehaviour
 
     [SerializeField]
     protected Color baseColor = Color.blue;
-
+    [SerializeField]
     protected Color taggedColor = Color.red;
 
     protected MeshRenderer renderer;

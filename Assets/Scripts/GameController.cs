@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+
     private ActorController[] players;
 
     private float gameTime = 25F;
