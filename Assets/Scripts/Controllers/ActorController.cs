@@ -15,27 +15,41 @@ public abstract class ActorController : MonoBehaviour
     protected MeshRenderer renderer;
 
     public delegate void OnActorTagged(bool val);
-
     public OnActorTagged onActorTagged;
 
-    public bool IsTagged { get; protected set; }
+    public bool IsTagged
+    {
+        get; protected set;
+    }
 
-    // Use this for initialization
+    public int touchCount
+    {
+        get; protected set;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    protected virtual void Awake()
+    {
+        FindObjectOfType<GameController>().onGameEnd += Stop;
+    }
+
     protected virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
         renderer = GetComponent<MeshRenderer>();
 
-        SetTagged(false);
+        SetTouched(false);
 
-        onActorTagged += SetTagged;
+        onActorTagged += SetTouched;
     }
 
-    protected abstract Vector3 GetTargetLocation();
-
-    protected void MoveActor()
+    protected virtual void OnDestroy()
     {
-        agent.SetDestination(GetTargetLocation());
+        agent = null;
+        renderer = null;
+        onActorTagged -= SetTouched;
     }
 
     protected void OnCollisionEnter(Collision collision)
@@ -47,25 +61,49 @@ public abstract class ActorController : MonoBehaviour
             print("collided!");
 
             otherActor.onActorTagged(true);
+
             onActorTagged(false);
         }
     }
 
-    protected virtual void OnDestroy()
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    protected abstract Vector3 GetTargetLocation();
+
+    protected void MoveActor()
     {
-        agent = null;
-        renderer = null;
-        onActorTagged -= SetTagged;
+        agent.SetDestination(GetTargetLocation());
     }
 
-    private void SetTagged(bool val)
+    private void SetTouched(bool val)
     {
         IsTagged = val;
+
+        if (IsTagged)
+        {
+            touchCount++;
+
+            FindObjectOfType<GameController>().SetCurrentPlayerTouched(this);
+        }
 
         if (renderer)
         {
             print(string.Format("Changing color to {0}", gameObject.name));
+
             renderer.material.color = val ? taggedColor : baseColor;
         }
+    }
+
+    private void Stop()
+    {
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+
+        if (agent != null)
+            agent.enabled = false;
+
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+
+        if (rigidbody != null)
+            rigidbody.isKinematic = true;
     }
 }

@@ -7,6 +7,8 @@ public class ExampleTask : Task
 
     public override bool Execute()
     {
+        Debug.Log("ExampleTask :: Execute");
+
         return testSucceeded;
     }
 }

@@ -29,6 +29,8 @@ public class TestBTController : MonoBehaviour
 
     private void ExecuteBT()
     {
+        Debug.Log("TestBTController :: ExecuteBT");
+
         print(string.Format("Executed root with result {0}", root.Execute()));
     }
 }

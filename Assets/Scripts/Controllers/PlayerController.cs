@@ -8,6 +8,7 @@ public class PlayerController : ActorController
     protected override Vector3 GetTargetLocation()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
         RaycastHit hit;
 
         Debug.DrawRay(ray.origin, ray.direction * 1000);
@@ -19,6 +20,7 @@ public class PlayerController : ActorController
         else
         {
             print("Couldn't find point");
+
             return transform.position;
         }
     }
@@ -30,7 +32,5 @@ public class PlayerController : ActorController
         {
             MoveActor();
         }
-
-        //print(string.Format("{0},{1},{2}", Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
     }
 }

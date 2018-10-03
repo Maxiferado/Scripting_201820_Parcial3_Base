@@ -11,6 +11,7 @@
     public override bool Execute()
     {
         bool result = false;
+
         int childCount = 0;
 
         if (CheckCondition())

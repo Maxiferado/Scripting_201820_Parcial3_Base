@@ -7,6 +7,8 @@ public class ExampleSelector : Selector
 
     protected override bool CheckCondition()
     {
+        Debug.Log("ExampleSelector :: CheckCondition");
+
         return testSucceeded;
     }
 }

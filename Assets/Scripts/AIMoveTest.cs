@@ -10,24 +10,16 @@ public class AIMoveTest : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
+
+        FindObjectOfType<GameController>().onGameStart += ExecuteOnAIMoveIssued;
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void ExecuteOnAIMoveIssued()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            if (onAIMoveIssued != null)
-            {
-                onAIMoveIssued(); 
-            }
-        }
+        if (onAIMoveIssued != null)
+            onAIMoveIssued();
     }
 }

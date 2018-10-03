@@ -3,7 +3,7 @@
 public abstract class Composite : Node
 {
     [SerializeField]
-    protected Node[] children;
+    protected Task[] children;
 
     protected abstract bool MustAllChildrenSucceed { get; }
 
